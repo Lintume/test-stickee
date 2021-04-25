@@ -58,7 +58,9 @@ class Product implements \JsonSerializable
         $classProps = array_keys(get_object_vars($this));
         foreach ($classProps as $prop) {
             $nameOfHelper = 'get' . ucfirst($prop);
-            $this->$prop = ScrapeHelper::$nameOfHelper($node);
+            if (method_exists(new ScrapeHelper(), $nameOfHelper)) {
+                $this->$prop = ScrapeHelper::$nameOfHelper($node);
+            }
         }
     }
 }

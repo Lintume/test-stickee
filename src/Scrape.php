@@ -11,12 +11,14 @@ class Scrape
 {
     private array $products = [];
 
-    private string $url = 'https://www.magpiehq.com/developer-challenge/smartphones';
+    public const URL = 'https://www.magpiehq.com/developer-challenge/smartphones';
 
-    private string $outputFile = 'output.json';
+    public const OUTPUT_FILE = 'output.json';
 
     /**
      * run crawler, point of entry
+     *
+     * @throws GuzzleException
      */
     public function run(): void
     {
@@ -25,7 +27,7 @@ class Scrape
 
         $this->products = array_unique($this->products);
 
-        file_put_contents($this->outputFile, json_encode($this->products));
+        file_put_contents(self::OUTPUT_FILE, json_encode($this->products));
     }
 
     /**
@@ -34,9 +36,10 @@ class Scrape
      */
     public function getPagesForCrawling(): array
     {
-        $document = ScrapeHelper::fetchDocument($this->url);
+        $document = ScrapeHelper::fetchDocument(self::URL);
 
         $pages = $document->filter('#pages a');
+
         return $pages->each(function (Crawler $node, $i) {
             return $node->text();
         });
@@ -46,10 +49,10 @@ class Scrape
      * @param $pages
      * @throws GuzzleException
      */
-    public function crawling($pages): void
+    public function crawling(array $pages): void
     {
         foreach ($pages as $page) {
-            $document = ScrapeHelper::fetchDocument($this->url . '/?page=' . $page);
+            $document = ScrapeHelper::fetchDocument(self::URL . '/?page=' . $page);
             $productContainers = $document->filter('.product');
 
             $productContainers->each(function (Crawler $node, $i) {

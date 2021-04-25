@@ -60,6 +60,7 @@ class ScrapeHelper
         if (str_contains($string, 'GB')) {
             $number *= 1000;
         }
+
         return (int)$number;
     }
 
@@ -120,9 +121,7 @@ class ScrapeHelper
             || preg_match("/(\d{1,2}) (\w+) (\d{4})/", $string, $matches) //25 Apr 2021
             || preg_match("/tomorrow/", $string, $matches)) { //tomorrow
 
-
             return self::formatDate("{$matches[0]}");
-
         }
 
         return '';
@@ -150,7 +149,7 @@ class ScrapeHelper
      * @param $date
      * @return string
      */
-    public static function formatDate($date): string
+    public static function formatDate(string $date): string
     {
         return date_format(date_create($date), 'Y-m-d');
     }
