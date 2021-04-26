@@ -117,7 +117,7 @@ class ScrapeHelper
         }
 
         if (preg_match("/\d{4}-\d{2}-\d{2}/", $string, $matches) //1970-03-02
-            || preg_match("/\w+day\s\d{1,2}(st|th|rd)\s\w+ \d{4}/", $string, $matches) //Sunday 28th July 2021
+            || preg_match("/\w+day\s\d{1,2}(st|th|rd|nd)\s\w+ \d{4}/", $string, $matches) //Sunday 28th July 2021
             || preg_match("/(\d{1,2}) (\w+) (\d{4})/", $string, $matches) //25 Apr 2021
             || preg_match("/tomorrow/", $string, $matches)) { //tomorrow
 
